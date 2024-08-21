@@ -3,11 +3,9 @@
 // @Controller('items')
 // export class ItemsController {}
 
-import { Controller, Get, Post, Body, Param, Put } from '@nestjs/common';
+import { Controller, Get, Post, Put, Delete, Body, Param } from '@nestjs/common';
 import { ItemsService } from './items.service';
-// import { Item } from './schemas/item.schema';
 import { Item } from './schemas/items.schema';
-
 
 @Controller('items')
 export class ItemsController {
@@ -18,6 +16,11 @@ export class ItemsController {
     return this.itemsService.findAll();
   }
 
+  @Get(':id')
+  async findOne(@Param('id') id: string): Promise<Item> {
+    return this.itemsService.findOne(id);
+  }
+
   @Post()
   async create(@Body() item: Item): Promise<Item> {
     return this.itemsService.create(item);
@@ -26,5 +29,10 @@ export class ItemsController {
   @Put(':id')
   async update(@Param('id') id: string, @Body() item: Item): Promise<Item> {
     return this.itemsService.update(id, item);
+  }
+
+  @Delete(':id')
+  async delete(@Param('id') id: string): Promise<any> {
+    return this.itemsService.delete(id);
   }
 }
